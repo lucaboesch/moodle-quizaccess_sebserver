@@ -114,14 +114,13 @@ class quizaccess_sebserver extends access_rule_base {
             // Check if quiz has Seb Server enabled for.
             $sebserver = $DB->get_record('quizaccess_sebserver', ['sebserverquizid' => $quizid]);
             if (!empty($sebserver) && $sebserver->sebserverenabled == 1) {
-                  $displaydwnloadbutton = ['style="pointer-events: none!important;background-color: #ededed;"'];
-                  if (!quiz_has_attempts($quizid)) {
+                $displaydwnloadbutton = ['style="pointer-events: none!important;background-color: #ededed;"'];
+                if (!quiz_has_attempts($quizid)) {
                     $mform->addElement('html',
-                      '<script>var sebsection = document.getElementById("fitem_id_seb_requiresafeexambrowser"); ' .
-                      'sebsection.insertAdjacentHTML( "beforebegin", "<div class=\"alert alert-warning alert-block fade in\">' .
-                      get_string('managedbysebserver', 'quizaccess_sebserver') . '</div>"); </script>');
-                  }
-                  
+                    '<script>var sebsection = document.getElementById("fitem_id_seb_requiresafeexambrowser"); ' .
+                    'sebsection.insertAdjacentHTML( "beforebegin", "<div class=\"alert alert-warning alert-block fade in\">' .
+                    get_string('managedbysebserver', 'quizaccess_sebserver') . '</div>"); </script>');
+                }
             }
         } else {
             $readonly = '';

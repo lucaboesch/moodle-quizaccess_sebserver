@@ -1,7 +1,7 @@
 # moodle-quizaccess_sebserver
 ![](https://github.com/ethz-let/moodle-quizaccess_sebserver/actions/workflows/moodle-plugin-ci.yml/badge.svg)
 
-SEB Server plugin for moodle. This plugin works with SEB Server version 2.0 only.
+SEB Server plugin for moodle. This plugin works only with SEB Server version 2.0.
 
 # Required min wersions
 - Moodle: 4.2+
@@ -46,7 +46,7 @@ Verify that:
 2. Enable protocols	rest
 
 # Required capabilities:
-System: webservice/rest:use
+- System: webservice/rest:use, moodle/course:view, moodle/course:update, moodle/course:viewhiddencourses, mod/quiz:view
 - core_user_get_users_by_field
 Retrieve users' information for a specified unique field - If you want to do a user search, use core_user_get_users() or core_user_search_identity().
 moodle/user:viewdetails, moodle/user:viewhiddendetails, moodle/course:useremail, moodle/user:update
@@ -57,30 +57,20 @@ Backup Course by its ID and type ("course" or "quiz" ID provided)
 moodle/backup:backupcourse
 - quizaccess_sebserver_get_exams
 Return courses details and their quizzes
-moodle/course:view, moodle/course:update, moodle/course:viewhiddencourses, mod/quiz:view
 - quizaccess_sebserver_get_restriction
 Get browser_keys and config_keys (not available on moodle) for certain quiz.
-moodle/course:view, moodle/course:update, moodle/course:viewhiddencourses, mod/quiz:manage
 - quizaccess_sebserver_set_exam_data
 Set exam data for imported exams via SebServer
-moodle/course:view, moodle/course:update, moodle/course:viewhiddencourses, mod/quiz:manage
 - quizaccess_sebserver_set_restriction
 Set browser_keys and config_keys (not available on moodle) for certain quiz.
-moodle/course:view, moodle/course:update, moodle/course:viewhiddencourses, mod/quiz:manage
-- quizaccess_sebserver_connection
-Set connection of SebServer.
-quizaccess/sebserver:managesebserverconnection
-- quizaccess_sebserver_connection_delete
-Delete connection of SebServer.
-quizaccess/sebserver:managesebserverconnection
+- Set connection of SebServer: quizaccess_sebserver_connection
+- Manage connection of SebServer: quizaccess/sebserver:managesebserverconnection
+- Delete connection of SebServer: quizaccess_sebserver_connection_delete
 
 # Optional capabilities:
-Can use SebServer in a quiz.
-- quizaccess/sebserver:canusesebserver
-Can disable SebServer in a quiz.
-- quizaccess/sebserver:candeletesebserver
-Can use autologin to SebServer proctoring.
-- quizaccess/sebserver:sebserverautologinlink
+- Can use SebServer in a quiz: quizaccess/sebserver:canusesebserver
+- Can disable SebServer in a quiz: quizaccess/sebserver:candeletesebserver
+- Can use autologin to SebServer proctoring: quizaccess/sebserver:sebserverautologinlink
 
 # Credits
 This plugin was made possible with the help and contribution of (in alphabetical order):
