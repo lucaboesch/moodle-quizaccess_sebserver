@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * Privacy Subsystem implementation for quizaccess_sebserver.
  *
@@ -24,12 +25,6 @@
 
 namespace quizaccess_sebserver\privacy;
 
-/**
- * Privacy Subsystem for quizaccess_sebserver implementing null_provider.
- *
- * @copyright  2022 ETH Zurich
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- */
 class provider implements \core_privacy\local\metadata\null_provider {
     /**
      * Get the language string identifier with the component's language

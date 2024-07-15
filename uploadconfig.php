@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
  * Accept uploading files by web service token to the user draft file area.
  *
@@ -194,4 +193,3 @@ foreach ($files as $file) {
 }
 $DB->set_field('quizaccess_sebserver', 'sebservercalled', 1, ['sebserverquizid' => $quizid]);
 echo json_encode($results);
-

@@ -421,7 +421,7 @@ class quizaccess_sebserver extends access_rule_base {
 
     }
     /**
-     * Validate the data from any form fields added using {@link add_settings_form_fields()}.
+     * Validate the data from any form fields added.
      *
      * @param array $errors the errors found so far.
      * @param array $data the submitted form data.
@@ -777,7 +777,7 @@ class quizaccess_sebserver extends access_rule_base {
     /**
      * Whether the user should see download/launch sebserver configuration.
      *
-     * @param int $cmid.
+     * @param int $cmid course module id.
      * @return string true buttons to be shown.
      */
     public function display_sebserver_actionbtns($cmid) {
@@ -795,13 +795,13 @@ class quizaccess_sebserver extends access_rule_base {
         return true;
     }
     /**
-     * update SebServer with the quiz data, and request seb server config.
+     * Update SebServer with the quiz data, and request seb server config.
      *
-     * @param array $conndetails.
-     * @param context $context.
-     * @param int $cmid.
+     * @param array $conndetails connecton details.
+     * @param context $context context.
+     * @param int $cmid cmid.
      *
-     * @return stdClass $settings.
+     * @return stdClass $settings settings.
      */
     public function make_sebserver_exam_call($conndetails, $context, $cmid) {
         global $COURSE, $DB, $CFG;

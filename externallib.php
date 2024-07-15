@@ -777,13 +777,11 @@ class quizaccess_sebserver_external extends external_api {
     /**
      * Set user restrictions.
      *
-     * @param int $quizid
-     * @param array $browserkeys
-     * @param array $configkeys
-     * @param string $quitlink
-     * @param string $quitsecret
+     * @param int $quizid quizid
+     * @param array $browserkeys browser keys
+     * @param array $configkeys config keys
      * @return array of warnings and restrictions saved
-     * @throws moodle_exception.
+     * @throws moodle_exception moodle exception.
      * @since Moodle 3.2
      */
     public static function set_restriction($quizid, $browserkeys = [], $configkeys = []) {
@@ -1117,6 +1115,7 @@ class quizaccess_sebserver_external extends external_api {
     /**
      * Returns description of method result value
      *
+     * @param array $data data
      * @return external_description
      * @since Moodle 3.2
      */
