@@ -23,7 +23,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- // phpcs:disable moodle.Files.LangFilesOrdering.IncorrectOrder
+// phpcs:disable moodle.Files.LangFilesOrdering.IncorrectOrder
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -36,11 +36,11 @@ $string['privacy:metadata'] = 'The SEB Server access rule plugin does not store 
 $string['connectionnotsetupyet'] = 'The connection is not setup yet';
 $string['notemplate'] = 'No template';
 $string['sebserverexamtemplate'] = 'Exam template';
-$string['sebserverexamtemplate_help'] = 'Select an Exam template that suits your exam scenario';
+$string['sebserverexamtemplate_help'] = 'Select from your organization\'s SEB Server exam templates according to your scenario.';
 $string['showquitbtn'] = 'Show quit button';
 $string['sebserverquitsecret'] = 'Quit/unlock password';
-$string['sebserverquitsecret_help'] = 'This password is prompted when users try to quit SEB with the "Quit" button or Ctrl-Q (CMD -Q) in the main browser window. If no quit password is set, then SEB just prompts "Are you sure you want to quit SEB?".';
-$string['modificationinstruction'] = 'If you want to change settings, you must disable SEB Server and save the quiz settings, then enable SEB Server again. You can now select new values for the settings fields and save the test settings.';
+$string['sebserverquitsecret_help'] = 'With either the "Quit" button or Ctrl+q (CMD-Q) the user can quit SEB with this password or unlock the screen. For summative exams it is recommended to use a quit password.';
+$string['modificationinstruction'] = 'To change settings, first disable SEB Server and save the settings. This releases the SEB Server connection. Then enable SEB Server again for the options to become available again.';
 $string['adminsonly'] = 'Admins only';
 $string['resetseb'] = 'Release SEB Server connection';
 $string['resetseb_help'] = 'Website administrators can terminate the connection to the SEB server.';
@@ -67,5 +67,5 @@ $string['quizaccess/sebserver:managesebserverconnection'] = 'Can manage Seb Serv
 $string['quizaccess/seb:sebserverautologinlink'] = 'Can autologin into SEB Server';
 $string['selectemplate'] = 'Select Exam template';
 $string['sebservertemplateid'] = 'SEB Server template';
-$string['sebservertemplateid_help'] = 'Select an Exam template that suits your exam scenario';
+$string['sebservertemplateid_help'] = 'Select from your organisation\'s SEB Server exam templates according to your scenario.';
 $string['manageddevicetemplate'] = 'Exam Configuration ID =';
