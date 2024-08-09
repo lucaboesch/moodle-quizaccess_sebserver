@@ -194,7 +194,7 @@ class quizaccess_sebserver extends access_rule_base {
                                 // Create a new change event
                                 if (sel.value == 1) {
                                     coresebplugin.setAttribute("style","pointer-events: none!important;background-color: #ededed;");
-                                    coresebplugin.selectedIndex = 3;
+                                    coresebplugin.selectedIndex = 4;
                                     allowedexamkeys.readOnly = true;
                                   } else {
                                     coresebplugin.selectedIndex = initialselectedseboption;
