@@ -33,15 +33,19 @@ jobs:
           - php: '8.3'
             moodle-branch: 'main'
             database: 'pgsql'
+            moodle-app: 'false'
           - php: '8.3'
             moodle-branch: 'MOODLE_404_STABLE'
             database: 'pgsql'
+            moodle-app: 'false'
           - php: '8.2'
             moodle-branch: 'MOODLE_403_STABLE'
             database: 'pgsql'
+            moodle-app: 'false'
           - php: '8.2'
             moodle-branch: 'MOODLE_403_STABLE'
             database: 'mariadb'
+            moodle-app: 'false'
 
     steps:
       - name: Check out repository code
@@ -70,7 +74,7 @@ jobs:
         env:
           DB: ${{ matrix.database }}
           MOODLE_BRANCH: ${{ matrix.moodle-branch }}
-          MOODLE_APP: false
+          MOODLE_APP: ${{ matrix.moodle-app }}
 
       - name: PHP Lint
         if: ${{ always() }}
