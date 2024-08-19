@@ -179,8 +179,8 @@ class quizaccess_sebserver extends access_rule_base {
 
         $embedjsscript = '<script>
 
-                          coresebplugin = document.getElementById("id_seb_requiresafeexambrowser");
-                          initialselectedseboption = coresebplugin.selectedIndex;
+                          coresebplugin = document.querySelector("#id_seb_requiresafeexambrowser");
+                          initialselectedseboption = coresebplugin.value;
                           sebserverenabled = document.getElementById("id_sebserverenabled");
                           initialsebserverenabled = sebserverenabled.selectedIndex;
                           if (initialsebserverenabled == 1) { // Enabled.
@@ -189,15 +189,15 @@ class quizaccess_sebserver extends access_rule_base {
                           }
                           ' . $readonlymanageddevices . '
                           function sebserevrselectionchange(sel) {
-                                var coresebplugin = document.getElementById("id_seb_requiresafeexambrowser");
+                                var coresebplugin = document.querySelector("#id_seb_requiresafeexambrowser");
                                 var allowedexamkeys = document.getElementById("id_seb_allowedbrowserexamkeys");
                                 // Create a new change event
                                 if (sel.value == 1) {
                                     coresebplugin.setAttribute("style","pointer-events: none!important;background-color: #ededed;");
-                                    coresebplugin.selectedIndex = 4;
+                                    coresebplugin.value = 4;
                                     allowedexamkeys.readOnly = true;
                                   } else {
-                                    coresebplugin.selectedIndex = initialselectedseboption;
+                                    coresebplugin.value = initialselectedseboption;
                                     coresebplugin.setAttribute("style","pointer-events: inherit!important;");
                                     coresebplugin.setAttribute("style","background-color: inherit!important;");
                                     allowedexamkeys.readOnly = false;
