@@ -78,7 +78,7 @@ jobs:
 
       - name: PHP Lint
         if: ${{ always() }}
-        run: moodle-plugin-ci phplint quizaccess_sebserver
+        run: moodle-plugin-ci phplint
 
       - name: PHP Mess Detector
         continue-on-error: true # This step will show errors but will not fail
