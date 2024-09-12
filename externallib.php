@@ -90,6 +90,10 @@ class quizaccess_sebserver_external extends external_api {
 
         $outcome = backup_cron_automated_helper::BACKUP_STATUS_OK;
         $config = get_config('backup');
+        $orgdir = $config->backup_auto_destination;
+        $orgstorage = $config->backup_auto_storage;
+        set_config('backup_auto_destination', '', 'backup');
+        set_config('backup_auto_storage', '0', 'backup');
         $dir = '';
         $storage = 0;
         $bc = new backup_controller(backup::TYPE_1COURSE, $course->id, backup::FORMAT_MOODLE, backup::INTERACTIVE_NO,
@@ -205,6 +209,8 @@ class quizaccess_sebserver_external extends external_api {
                 '?forcedownload=1',
             'relativelink' => '/' . $context->id . '/backup/automated/' . $backupvaluename,
         ];
+        set_config('backup_auto_destination', $orgdir, 'backup');
+        set_config('backup_auto_storage', $orgstorage, 'backup');
         $result = [];
         $result['data'] = $bkupdata;
         $result['warnings'] = $warnings;
