@@ -90,8 +90,8 @@ class quizaccess_sebserver_external extends external_api {
 
         $outcome = backup_cron_automated_helper::BACKUP_STATUS_OK;
         $config = get_config('backup');
-        $dir = $config->backup_auto_destination;
-        $storage = (int) $config->backup_auto_storage;
+        $dir = '';
+        $storage = 0;
         $bc = new backup_controller(backup::TYPE_1COURSE, $course->id, backup::FORMAT_MOODLE, backup::INTERACTIVE_NO,
             backup::MODE_AUTOMATED, $userid);
 
@@ -196,7 +196,6 @@ class quizaccess_sebserver_external extends external_api {
         if ($outcome == backup_cron_automated_helper::BACKUP_STATUS_ERROR ||
             $outcome == backup_cron_automated_helper::BACKUP_STATUS_UNFINISHED) {
             // Reset unfinished to error.
-            $backupcourse->laststatus = \backup_cron_automated_helper::BACKUP_STATUS_ERROR;
             throw new moodle_exception('Automated backup for course: ' . $course->fullname . ' failed.');
         }
         $context = context_course::instance($course->id);
