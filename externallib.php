@@ -68,11 +68,16 @@ class quizaccess_sebserver_external extends external_api {
         if ($backuptype != 'course' && $backuptype != 'quiz') {
             throw new moodle_exception('Backup type paramater is invalid');
         }
+        
         if ($backuptype == 'quiz') {
             $qcm = get_coursemodule_from_id('quiz', $id, 0, false, MUST_EXIST);
-            $id = $qcm->course;
+            $courseid = $qcm->course;
+            $quizcontext = context_module::instance($qcm->id);
+            $quizcmid = $id;
+        } else {
+            $courseid = $id;
         }
-        $course = $DB->get_record('course', ['id' => $id], 'id', MUST_EXIST);
+        $course = $DB->get_record('course', ['id' => $courseid], 'id', MUST_EXIST);
         $coursecontext = context_course::instance($course->id);
         $contextid = $coursecontext->id;
 
@@ -89,15 +94,22 @@ class quizaccess_sebserver_external extends external_api {
         $bkupdata = [];
 
         $outcome = backup_cron_automated_helper::BACKUP_STATUS_OK;
-        $config = get_config('backup');
-        $orgdir = $config->backup_auto_destination;
-        $orgstorage = $config->backup_auto_storage;
-        set_config('backup_auto_destination', '', 'backup');
-        set_config('backup_auto_storage', '0', 'backup');
+        if ($backuptype != 'quiz') {
+            $config = get_config('backup');
+            $orgdir = $config->backup_auto_destination;
+            $orgstorage = $config->backup_auto_storage;
+            set_config('backup_auto_destination', '', 'backup');
+            set_config('backup_auto_storage', '0', 'backup');
+        }
         $dir = '';
         $storage = 0;
-        $bc = new backup_controller(backup::TYPE_1COURSE, $course->id, backup::FORMAT_MOODLE, backup::INTERACTIVE_NO,
+        if ($backuptype == 'quiz') {
+            $bc = new backup_controller(backup::TYPE_1ACTIVITY, $quizcmid, backup::FORMAT_MOODLE, backup::INTERACTIVE_NO,
+            backup::MODE_GENERAL, $userid);
+        } else {
+            $bc = new backup_controller(backup::TYPE_1COURSE, $course->id, backup::FORMAT_MOODLE, backup::INTERACTIVE_NO,
             backup::MODE_AUTOMATED, $userid);
+        }
 
         try {
 
@@ -202,15 +214,22 @@ class quizaccess_sebserver_external extends external_api {
             // Reset unfinished to error.
             throw new moodle_exception('Automated backup for course: ' . $course->fullname . ' failed.');
         }
-        $context = context_course::instance($course->id);
+        if ($backuptype == 'quiz') {
+            $location = '/backup/activity/';
+            $plugincontextid = $quizcontext->id;
+        } else {
+            $location = '/backup/automated/';
+            $plugincontextid = $contextid;
+            set_config('backup_auto_destination', $orgdir, 'backup');
+            set_config('backup_auto_storage', $orgstorage, 'backup');
+        }
         $bkupdata[] = [
             'status' => $outcome,
-            'filelink' => $CFG->wwwroot . '/pluginfile.php/' . $context->id . '/backup/automated/' . $backupvaluename .
+            'filelink' => $CFG->wwwroot . '/pluginfile.php/' . $plugincontextid . $location . $backupvaluename .
                 '?forcedownload=1',
-            'relativelink' => '/' . $context->id . '/backup/automated/' . $backupvaluename,
+            'relativelink' => '/' . $plugincontextid . $location . $backupvaluename,
         ];
-        set_config('backup_auto_destination', $orgdir, 'backup');
-        set_config('backup_auto_storage', $orgstorage, 'backup');
+
         $result = [];
         $result['data'] = $bkupdata;
         $result['warnings'] = $warnings;
