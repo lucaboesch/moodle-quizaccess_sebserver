@@ -68,7 +68,6 @@ class quizaccess_sebserver_external extends external_api {
         if ($backuptype != 'course' && $backuptype != 'quiz') {
             throw new moodle_exception('Backup type paramater is invalid');
         }
-        
         if ($backuptype == 'quiz') {
             $qcm = get_coursemodule_from_id('quiz', $id, 0, false, MUST_EXIST);
             $courseid = $qcm->course;
