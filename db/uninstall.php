@@ -46,6 +46,8 @@ function xmldb_quizaccess_sebserver_uninstall() {
         $uparams = ['externalserviceid' => $oldrecord->id];
         $DB->delete_records('external_services_users', $uparams);
     }
+    // Delete possible SEB Server connection data.
+    unset_all_config_for_plugin('quizaccess_sebserver');
 
     return true;
 }
