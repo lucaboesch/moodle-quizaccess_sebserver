@@ -25,9 +25,14 @@
 
 use mod_quiz\local\access_rule_base;
 use mod_quiz\quiz_attempt;
-use mod_quiz\quiz_settings;
+use quizaccess_sebserver\quiz_settings;
 use quizaccess_seb\seb_access_manager;
 use mod_quiz\access_manager;
+
+defined('MOODLE_INTERNAL') || die();
+
+require_once($CFG->dirroot . '/mod/quiz/accessrule/accessrulebase.php');
+require_once($CFG->dirroot . '/mod/quiz/accessrule/sebserver/classes/quiz_settings.php');
 
 /**
  * A rule requiring SEB Server connection.
@@ -35,7 +40,7 @@ use mod_quiz\access_manager;
  * @copyright  2022 ETH Zurich
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class quizaccess_sebserver extends access_rule_base {
+class quizaccess_sebserver extends quiz_access_rule_base {
 
     /**
      * Return an appropriately configured instance of this rule, if it is applicable
@@ -47,7 +52,7 @@ class quizaccess_sebserver extends access_rule_base {
      *      time limits by the mod/quiz:ignoretimelimits capability.
      * @return access_rule_base|null the rule, if applicable, else null.
      */
-    public static function make(quiz_settings $quizobj, $timenow, $canignoretimelimits) {
+    public static function make(quiz $quizobj, $timenow, $canignoretimelimits) {
 
         if (empty($quizobj->get_quiz()->sebserverenabled)) {
             return null;
