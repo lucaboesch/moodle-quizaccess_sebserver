@@ -92,6 +92,7 @@ class quizaccess_sebserver extends access_rule_base {
             $quitbutton = html_writer::link(
                 $this->quiz->sebserverquitlink,
                 get_string('exitsebbutton', 'quizaccess_seb'),
+                ['id' => 'seb-quit-button'],
                 ['class' => 'btn btn-secondary']
             );
         }
