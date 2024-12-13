@@ -54,7 +54,7 @@ moodle/user:viewdetails, moodle/user:viewhiddendetails, moodle/course:useremail,
 Return some site info / user info / list web service functions
 - quizaccess_sebserver_backup_course
 Backup Course by its ID and type ("course" or "quiz" ID provided)
-moodle/backup:backupcourse
+Clone of minimum Course Editing Teacher (with moodle/backup:backupcourse, moodle/backup:backupsection, moodle/backup:backuptargetimport, moodle/backup:configure, moodle/backup:downloadfile, moodle/restore:uploadfile, moodle/backup:backupactivity, moodle/course:viewhiddencourses, moodle/course:viewhiddenactivities, mod/quiz:view, mod/quiz:manage, mod/quiz:preview, moodle/course:managefiles, moodle/course:managegroups, moodle/course:viewparticipants, report/participation:view etc)
 - quizaccess_sebserver_get_exams
 Return courses details and their quizzes
 - quizaccess_sebserver_get_restriction
