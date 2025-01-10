@@ -405,7 +405,8 @@ class quizaccess_sebserver extends access_rule_base {
 
             }
             // SebServer Auto-login link.
-            if ($this->quizobj->has_capability('quizaccess/sebserver:sebserverautologinlink')) {
+            if ($this->quizobj->has_capability('quizaccess/sebserver:sebserverautologinlink')  &&
+                ($this->quiz->timeclose == 0 || $this->quiz->timeclose > time())) {
                 $sebserverautologinlink = new moodle_url('/mod/quiz/accessrule/sebserver/sebserverautologin.php?',
                                                          ['id' => $cmid, 'sesskey' => sesskey()]);
                 $return .= ' ' . html_writer::link(
