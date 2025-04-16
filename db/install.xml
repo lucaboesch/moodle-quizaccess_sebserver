@@ -15,7 +15,9 @@
         <FIELD NAME="sebservertemplateid" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="false" DEFAULT="0" SEQUENCE="false" COMMENT="Exam template ID in Sebserver." PREVIOUS="sebserverquitsecret" NEXT="sebservershowquitbtn"/>
         <FIELD NAME="sebservershowquitbtn" TYPE="int" LENGTH="2" NOTNULL="true" UNSIGNED="false" DEFAULT="1" SEQUENCE="false" COMMENT="Whether to display quit button." PREVIOUS="sebservertemplateid" NEXT="sebservercalled"/>
         <FIELD NAME="sebservercalled" TYPE="int" LENGTH="2" NOTNULL="true" UNSIGNED="false" DEFAULT="0" SEQUENCE="false" COMMENT="Whether exam/post on SebServer called." PREVIOUS="sebservershowquitbtn" NEXT="sebservertimemodified"/>
-        <FIELD NAME="sebservertimemodified" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="false" DEFAULT="0" SEQUENCE="false" COMMENT="Time record last modified." PREVIOUS="sebservercalled"/>
+        <FIELD NAME="sebservertimemodified" TYPE="int" LENGTH="10" NOTNULL="true" UNSIGNED="false" DEFAULT="0" SEQUENCE="false" COMMENT="Time record last modified." PREVIOUS="sebservercalled" NEXT="nextquizid"/>
+        <FIELD NAME="nextquizid" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" COMMENT="Consuctive quizid" PREVIOUS="sebservertimemodified"  NEXT="nextcourseid"/>
+        <FIELD NAME="nextcourseid" TYPE="int" LENGTH="10" NOTNULL="false" UNSIGNED="false" SEQUENCE="false" COMMENT="Consuctive courseid" PREVIOUS="nextquizid"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id" NEXT="quizid"/>

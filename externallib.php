@@ -1162,8 +1162,13 @@ class quizaccess_sebserver_external extends external_api {
             $params['quitlink'] = '';
             $params['showquitlink'] = 0;
         }
+        $nextquizid = $params['nextquizid'];
+        $nextcourseid = $params['nextcourseid'];
+
         $warnings = [];
         $success = false;
+        $contextid = null;
+        $nextquizcontextid = null;
 
         $context = context_system::instance();
         self::validate_context($context);
@@ -1181,6 +1186,12 @@ class quizaccess_sebserver_external extends external_api {
             ];
 
         }
+        if (!empty($nextquizid) && !empty($nextcourseid)) {
+            // Get next quiz context data.
+            [$nextquizcourse, $nextquizcm] = get_course_and_cm_from_instance($nextquizid, 'quiz');
+            $nextquizcontext = context_module::instance($nextquizcm->id);
+            $nextquizcontextid = $nextquizcontext->id;
+        }
         if (empty($params['addordelete']) && $params['addordelete'] != 0) {
             throw new moodle_exception('No Add or Delete option is selected.');
         }
@@ -1193,6 +1204,7 @@ class quizaccess_sebserver_external extends external_api {
         if ($params['addordelete'] == 0) {
             if (!$result = $DB->delete_records('quizaccess_sebserver', ['sebserverquizid' => $quizid])) {
                 $success = false;
+                $contextid = null;
                 $warnings[] = [
                     'item' => 'quiz',
                     'itemid' => $quizid,
@@ -1206,6 +1218,7 @@ class quizaccess_sebserver_external extends external_api {
                 $fs = get_file_storage();
                 $fs->delete_area_files($context->id, 'quizaccess_sebserver', 'filemanager_sebserverconfigfile');
                 $success = true;
+                $contextid = null;
                 $warnings[] = [
                     'item' => 'quiz',
                     'itemid' => $quizid,
@@ -1226,8 +1239,11 @@ class quizaccess_sebserver_external extends external_api {
                 $sebservrecord->sebservertimemodified = time();
                 $sebservrecord->sebservercalled = 1;
                 $sebservrecord->sebserverquitsecret = $params['quitsecret'];
+                $sebservrecord->nextquizid = $nextquizid;
+                $sebservrecord->nextcourseid = $nextcourseid;
                 if (!$result = $DB->insert_record('quizaccess_sebserver', $sebservrecord)) {
                     $success = false;
+                    $contextid = null;
                     $warnings[] = [
                         'item' => 'quiz',
                         'itemid' => $quizid,
@@ -1236,6 +1252,7 @@ class quizaccess_sebserver_external extends external_api {
                     ];
                 } else {
                     $success = true;
+                    $contextid = $nextquizcontextid;
                     $warnings[] = [
                         'item' => 'quiz',
                         'itemid' => $quizid,
@@ -1255,8 +1272,11 @@ class quizaccess_sebserver_external extends external_api {
                 $sebservrecord->sebservertimemodified = time();
                 $sebservrecord->sebservercalled = 1;
                 $sebservrecord->sebserverquitsecret = $params['quitsecret'];
+                $sebservrecord->nextquizid = $nextquizid;
+                $sebservrecord->nextcourseid = $nextcourseid;
                 if (!$result = $DB->update_record('quizaccess_sebserver', $sebservrecord)) {
                     $success = false;
+                    $contextid = null;
                     $warnings[] = [
                         'item' => 'quiz',
                         'itemid' => $quizid,
@@ -1265,6 +1285,7 @@ class quizaccess_sebserver_external extends external_api {
                     ];
                 } else {
                     $success = true;
+                    $contextid = $nextquizcontextid;
                     $warnings[] = [
                         'item' => 'quiz',
                         'itemid' => $quizid,
@@ -1286,6 +1307,7 @@ class quizaccess_sebserver_external extends external_api {
 
         if (isset($sebconfigresult) && trim($sebconfigresult) !== '') {
             $success = false;
+            $contextid = null;
             $warnings[] = [
                 'item' => 'quiz',
                 'itemid' => $quizid,
@@ -1296,6 +1318,7 @@ class quizaccess_sebserver_external extends external_api {
         } else {
             $DB->set_field('quizaccess_sebserver', 'sebservercalled', 1, ['sebserverquizid' => $quizid]);
             $success = true;
+            $contextid = $nextquizcontextid;
             $warnings[] = [
                 'item' => 'quiz',
                 'itemid' => $quizid,
@@ -1306,6 +1329,7 @@ class quizaccess_sebserver_external extends external_api {
         }
         $result = [
             'success' => $success,
+            'context' => $contextid,
             'warnings' => $warnings,
         ];
         return $result;
@@ -1321,6 +1345,7 @@ class quizaccess_sebserver_external extends external_api {
         return new external_single_structure(
             [
                 'success' => new external_value(PARAM_BOOL, 'True if the exam data set/deleted, false if not.'),
+                'context' => new external_value(PARAM_INT, 'Context ID for SebServer configuration file.'),
                 'warnings'  => new external_warnings(),
             ]
         );
@@ -1341,7 +1366,8 @@ class quizaccess_sebserver_external extends external_api {
                 'showquitlink' => new external_value(PARAM_BOOL, 'Show quit link', VALUE_OPTIONAL, 1),
                 'quitsecret' => new external_value(PARAM_TEXT, 'Exam quit secret', VALUE_OPTIONAL, ''),
                 'quitlink' => new external_value(PARAM_TEXT, 'Exam quit link', VALUE_OPTIONAL, ''),
-
+                'nextquizid' => new external_value(PARAM_INT, 'Next quiz ID', VALUE_OPTIONAL),
+                'nextcourseid' => new external_value(PARAM_INT, 'Next course ID', VALUE_OPTIONAL)
             ] ),
         ]);
 

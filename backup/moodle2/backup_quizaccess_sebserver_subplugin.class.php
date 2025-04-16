@@ -58,7 +58,7 @@ class backup_quizaccess_sebserver_subplugin extends backup_mod_quiz_access_subpl
                 null, ['sebserverenabled']);
         $subplugintablesettings = new backup_nested_element('quizaccess_sebserver',
                 null, ['sebserverrestricted', 'sebserverquitsecret', 'sebserverquitlink', 'sebservertemplateid',
-                            'sebservershowquitbtn', 'sebservertimemodified', 'sebservercalled']);
+                            'sebservershowquitbtn', 'sebservertimemodified', 'sebservercalled', 'nextquizid', 'nextcourseid']);
         // Connect XML elements into the tree.
         $subplugin->add_child($subpluginwrapper);
         $subpluginwrapper->add_child($subplugintablesettings);

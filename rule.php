@@ -85,15 +85,31 @@ class quizaccess_sebserver extends access_rule_base {
         if (empty($this->get_user_finished_attempts())) {
             return $quitbutton;
         }
-        // Only display if the link has been configured and attempts are greater than 0.
-        if (!empty($this->quiz->sebservershowquitbtn) &&
-            $this->quiz->sebservershowquitbtn &&
-            !empty($this->quiz->sebserverquitlink)) {
+        $this->quiz->nextquizid = 119; $this->quiz->nextcourseid = 20;
+        if (isset($this->quiz->nextquizid) && isset($this->quiz->nextcourseid) &&
+                  $this->quiz->nextquizid != 0 && $this->quiz->nextcourseid != 0) {
+            // Get cmid for the next quiz.
+            [$nextquizcourse, $nextquizcm] = get_course_and_cm_from_instance($this->quiz->nextquizid, 'quiz');
+            $nextquizcontext = context_module::instance($nextquizcm->id);
+            $nextquizconfiglink = new moodle_url('/pluginfile.php/' . $nextquizcontext->id . 
+                                  '/quizaccess_sebserver/filemanager_sebserverconfigfile/0/SEBServerSettings.seb');
+            $nextquizconfiglink->set_scheme('sebs');                                     
             $quitbutton = html_writer::link(
-                $this->quiz->sebserverquitlink,
-                get_string('exitsebbutton', 'quizaccess_seb'),
-                ['id' => 'seb-quit-button', 'class' => 'btn btn-primary']
+                $nextquizconfiglink->out(),
+                get_string('proceednextquiz', 'quizaccess_seb') . ': ' . $nextquizcm->name,
+                ['id' => 'seb-nextquiz-button', 'class' => 'btn btn-primary']
             );
+        } else {
+            // Only display if the link has been configured and attempts are greater than 0.
+            if (!empty($this->quiz->sebservershowquitbtn) &&
+                $this->quiz->sebservershowquitbtn &&
+                !empty($this->quiz->sebserverquitlink)) {
+                $quitbutton = html_writer::link(
+                    $this->quiz->sebserverquitlink,
+                    get_string('exitsebbutton', 'quizaccess_seb'),
+                    ['id' => 'seb-quit-button', 'class' => 'btn btn-primary']
+                );
+            }
         }
 
         return $quitbutton;
@@ -300,7 +316,6 @@ class quizaccess_sebserver extends access_rule_base {
         if ($validsession) {
             $return .= html_writer::div($this->get_quit_button()) .' ';
         }
-
         // Get SebConfig file from SebServer.
         $conndetails = self::sebserverconnectiondetails();
         if (empty($conndetails)) {

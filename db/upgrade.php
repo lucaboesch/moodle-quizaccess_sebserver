@@ -60,5 +60,19 @@ function xmldb_quizaccess_sebserver_upgrade($oldversion) {
          $dbman->create_table($table);
          upgrade_plugin_savepoint(true, 2024052900, 'quizaccess', 'sebserver');
     }
+    if($oldversion < 2025032100) {
+        $table = new xmldb_table('quizaccess_sebserver');
+        $quizidfield = new xmldb_field('nextquizid', XMLDB_TYPE_INTEGER, '10', null, false, null, null);
+        // Conditionally add the fields.
+        if (!$dbman->field_exists($table, $quizidfield)) {
+            $dbman->add_field($table, $quizidfield);
+        }
+        $courseidfield = new xmldb_field('nextcourseid', XMLDB_TYPE_INTEGER, '10', null, false, null, null);
+        // Conditionally add the fields.
+        if (!$dbman->field_exists($table, $courseidfield)) {
+            $dbman->add_field($table, $courseidfield);
+        }
+        upgrade_plugin_savepoint(true, 2025032100, 'quizaccess', 'sebserver');
+    }
     return true;
 }
