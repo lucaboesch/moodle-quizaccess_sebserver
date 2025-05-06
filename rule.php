@@ -93,7 +93,7 @@ class quizaccess_sebserver extends access_rule_base {
             $nextquizcontext = context_module::instance($nextquizcm->id);
             $nextquizconfiglink = new moodle_url('/pluginfile.php/' . $nextquizcontext->id . 
                                   '/quizaccess_sebserver/filemanager_sebserverconfigfile/0/SEBServerSettings.seb');
-            $nextquizconfiglink->set_scheme('sebs');                                     
+            $nextquizconfiglink->set_scheme('sebs');
             $quitbutton = html_writer::link(
                 $nextquizconfiglink->out(),
                 get_string('proceednextquiz', 'quizaccess_seb') . ': ' . $nextquizcm->name,

@@ -1367,7 +1367,7 @@ class quizaccess_sebserver_external extends external_api {
                 'quitsecret' => new external_value(PARAM_TEXT, 'Exam quit secret', VALUE_OPTIONAL, ''),
                 'quitlink' => new external_value(PARAM_TEXT, 'Exam quit link', VALUE_OPTIONAL, ''),
                 'nextquizid' => new external_value(PARAM_INT, 'Next quiz ID', VALUE_OPTIONAL),
-                'nextcourseid' => new external_value(PARAM_INT, 'Next course ID', VALUE_OPTIONAL)
+                'nextcourseid' => new external_value(PARAM_INT, 'Next course ID', VALUE_OPTIONAL),
             ] ),
         ]);
 
