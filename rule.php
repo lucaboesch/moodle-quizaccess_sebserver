@@ -90,7 +90,7 @@ class quizaccess_sebserver extends access_rule_base {
             // Get cmid for the next quiz.
             [$nextquizcourse, $nextquizcm] = get_course_and_cm_from_instance($this->quiz->nextquizid, 'quiz');
             $nextquizcontext = context_module::instance($nextquizcm->id);
-            $nextquizconfiglink = new moodle_url('/pluginfile.php/' . $nextquizcontext->id . 
+            $nextquizconfiglink = new moodle_url('/pluginfile.php/' . $nextquizcontext->id .
                                   '/quizaccess_sebserver/filemanager_sebserverconfigfile/0/SEBServerSettings.seb');
             $nextquizconfiglink->set_scheme('sebs');
             $quitbutton = html_writer::link(
