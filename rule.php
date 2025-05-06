@@ -85,7 +85,6 @@ class quizaccess_sebserver extends access_rule_base {
         if (empty($this->get_user_finished_attempts())) {
             return $quitbutton;
         }
-        
         if (isset($this->quiz->nextquizid) && isset($this->quiz->nextcourseid) &&
                   $this->quiz->nextquizid != 0 && $this->quiz->nextcourseid != 0) {
             // Get cmid for the next quiz.
