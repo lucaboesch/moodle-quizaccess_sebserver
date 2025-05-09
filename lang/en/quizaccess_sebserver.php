@@ -69,4 +69,4 @@ $string['selectemplate'] = 'Select Exam template';
 $string['sebservertemplateid'] = 'SEB Server template';
 $string['sebservertemplateid_help'] = 'Select from your organisation\'s SEB Server exam templates according to your scenario.';
 $string['manageddevicetemplate'] = 'Exam Configuration ID =';
-$string['proceednextquiz'] = 'Go to next quiz';
+$string['proceednextquiz'] = 'Go to';
