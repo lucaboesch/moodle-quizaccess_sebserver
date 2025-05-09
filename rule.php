@@ -611,7 +611,8 @@ class quizaccess_sebserver extends access_rule_base {
              sebserver.sebservertimemodified as sebservertimemodified, sebserver.sebservertemplateid as sebservertemplateid,
              sebserver.sebserverquitsecret as sebserverquitsecret,
              sebserver.sebservercalled as sebservercalled, sebserver.sebservershowquitbtn as sebservershowquitbtn,
-             sebserver.sebserverquitlink as sebserverquitlink',
+             sebserver.sebserverquitlink as sebserverquitlink, sebserver.nextquizid as nextquizid,
+             sebserver.nextcourseid as nextcourseid',
             'LEFT JOIN {quizaccess_sebserver} sebserver ON sebserver.sebserverquizid = quiz.id',
             [],
         ];
