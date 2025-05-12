@@ -95,7 +95,7 @@ class quizaccess_sebserver extends access_rule_base {
             $nextquizconfiglink->set_scheme('sebs');
             $quitbutton = html_writer::link(
                 $nextquizconfiglink->out(),
-                get_string('proceednextquiz', 'quizaccess_seb') . ': ' . $nextquizcm->name,
+                get_string('proceednextquiz', 'quizaccess_sebserver') . ': ' . $nextquizcm->name,
                 ['id' => 'seb-nextquiz-button', 'class' => 'btn btn-primary']
             );
         } else {
