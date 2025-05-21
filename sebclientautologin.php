@@ -33,31 +33,34 @@ $urltogo = $urltogo ?: $CFG->wwwroot;
 $context = context_system::instance();
 $PAGE->set_context($context);
 
+$params = ['cnfg' => $urltogo];
+$middleman = new moodle_url('/mod/quiz/accessrule/sebserver/middleman.php?',
+                            $params);
+$dielink = ' <a href="'.$CFG->wwwroot.'">' . get_string('continue') . '</a>';
 // Check if the user is already logged-in.
 if (isloggedin() && !isguestuser()) {
     delete_user_key( 'quizaccess_sebserver', $userid, $id);
     if ($USER->id == $userid) {
-        // 302 might not work for POST requests, 303 is ignored by obsolete clients.
-        @header($_SERVER['SERVER_PROTOCOL'] . ' 303 See Other');
-        @header('Location: '.$urltogo);
+        redirect($middleman);
         exit;
     } else {
-        throw new moodle_exception('Login key does not belong to the current user.
-                                Either download the config file manually, or reload the exam page again. Code: 1');
+       die('Login key does not belong to the current user.
+            Either download the config file manually, 
+            or reload the exam page again. Code: 1.' . $dielink);
     }
 }
 
 if (!$CFG->enablewebservices) {
-    throw new moodle_exception('enablewsdescription', 'webservice');
+    die(get_string('enablewsdescription', 'webservice') . $dielink);
 }
 
 if (!is_https()) {
-    throw new moodle_exception('httpsrequired', 'tool_mobile');
+     die(get_string('httpsrequired', 'tool_mobile') . $dielink);
 }
 
 if (has_capability('moodle/site:config', context_system::instance(), $userid) ||
     is_siteadmin($userid)) {
-    throw new moodle_exception('autologinnotallowedtoadmins', 'tool_mobile');
+     die(get_string('autologinnotallowedtoadmins', 'tool_mobile') . $dielink);
 }
 
 // Validate and delete the key.
@@ -66,33 +69,34 @@ if (!$keyrec = $DB->get_record('user_private_key', ['script' => 'quizaccess_sebs
     if (isloggedin() && !isguestuser()) {
         delete_user_key( 'quizaccess_sebserver', $userid, $id);
         if ($USER->id == $userid) {
-            // 302 might not work for POST requests, 303 is ignored by obsolete clients.
-            @header($_SERVER['SERVER_PROTOCOL'] . ' 303 See Other');
-            @header('Location: '.$urltogo);
+            redirect($middleman);
             exit;
         } else {
-            throw new moodle_exception('Login key does not belong to the current user.
-                                Either download the config file manually, or reload the exam page again.  Code: 2');
+             die('Login key does not belong to the current user.
+                  Either download the config file manually, 
+                  or reload the exam page again.  Code: 2.' . $dielink);
         }
     }
-    throw new \moodle_exception('There is no login key record in the database.');
+    die('There is no login key record in the database.
+                                 It could have expired.'.$dielink);
 }
 
 if (!empty($keyrec->validuntil) && $keyrec->validuntil < time()) {
-    throw new \moodle_exception('expiredkey');
+     die(get_string('expiredkey', 'error') . $dielink);
 }
 
 if ($keyrec->iprestriction) {
     $remoteaddr = getremoteaddr(null);
     if (empty($remoteaddr) || !address_in_subnet($remoteaddr, $keyrec->iprestriction)) {
-        throw new \moodle_exception('ipmismatch');
+        die(get_string('ipmismatch', 'error') . $dielink);
     }
 }
 
 // Double check key belong to user.
 if ($keyrec->userid != $userid) {
-    throw new moodle_exception('Login key does not belong to the current user.
-                                Either download the config file manually, or reload the exam page again.  Code: 3');
+   die('Login key does not belong to the current user.
+        Either download the config file manually, 
+        or reload the exam page again.  Code: 3.' . $dielink);
 }
 
 // Key validated, now require an active user: not guest, not suspended.
@@ -101,12 +105,11 @@ core_user::require_active_user($user, true, true);
 
 // Do the user log-in.
 if (!$user = get_complete_user_data('id', $user->id)) {
-    throw new moodle_exception('cannotfinduser', '', '', $user->id);
+    die('Can not find user.' . $dielink);
 }
 
-complete_user_login($user);
+@complete_user_login($user);
+
 \core\session\manager::apply_concurrent_login_limit($user->id, session_id());
 
-// 302 might not work for POST requests, 303 is ignored by obsolete clients.
-@header($_SERVER['SERVER_PROTOCOL'] . ' 303 See Other');
-@header('Location: '.$urltogo);
+redirect($middleman);

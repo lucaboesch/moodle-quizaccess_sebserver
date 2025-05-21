@@ -385,12 +385,19 @@ class quizaccess_sebserver extends access_rule_base {
                 // Autologin area (only non admins).
                 if (!has_capability('moodle/site:config', context_system::instance(), $USER->id) &&
                                    !is_siteadmin($USER->id)) {
-                    $autologinurl = new moodle_url('/mod/quiz/accessrule/sebserver/autologinkeys.php?',
-                                                    ['id' => $cmid, 'sesskey' => sesskey()]);
+                    // Delete previous keys.
+                    delete_user_key('quizaccess_sebserver', $USER->id);
+                    // Create a new key.
+                    $iprestriction = getremoteaddr();
+                    $validuntil = time() + 1500; // Expires in 15 mins.
+                    $key = create_user_key('quizaccess_sebserver', $USER->id, $cmid, $iprestriction, $validuntil);
+                    $params = ['id' => $cmid, 'userid' => $USER->id, 'key' => $key, 'urltogo' => $url];
+                    $autologinurl = new moodle_url('/mod/quiz/accessrule/sebserver/sebclientautologin.php?',
+                                                $params);
                 } else {
                     $autologinurl = $url;
-                    is_https() ? $autologinurl->set_scheme('sebs') : $autologinurl->set_scheme('seb');
                 }
+                is_https() ? $autologinurl->set_scheme('sebs') : $autologinurl->set_scheme('seb');
                 // End of autologin area.
 
                 // Launch SebServerConfig.
