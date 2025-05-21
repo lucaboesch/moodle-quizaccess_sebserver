@@ -3,7 +3,7 @@
 
 SEB Server plugin for moodle. This plugin works only with SEB Server version 2.0.
 
-# Required min wersions
+# Required min versions
 - Moodle: 4.2+
 - SEB Server 2.0
 
