@@ -38,7 +38,6 @@ if (isguestuser()) {
 
 $context = context_system::instance();
 $PAGE->set_context($context);
-
 $PAGE->set_pagelayout('redirect');  // No header and footer needed.
 $PAGE->set_title(get_string('pageshouldredirect', 'moodle'));
 

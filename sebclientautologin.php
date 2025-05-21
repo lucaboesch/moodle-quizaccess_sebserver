@@ -44,9 +44,9 @@ if (isloggedin() && !isguestuser()) {
         redirect($middleman);
         exit;
     } else {
-       die('Login key does not belong to the current user.
-            Either download the config file manually, 
-            or reload the exam page again. Code: 1.' . $dielink);
+        die('Login key does not belong to the current user.
+             Either download the config file manually, 
+             or reload the exam page again. Code: 1.' . $dielink);
     }
 }
 
@@ -73,8 +73,8 @@ if (!$keyrec = $DB->get_record('user_private_key', ['script' => 'quizaccess_sebs
             exit;
         } else {
              die('Login key does not belong to the current user.
-                  Either download the config file manually, 
-                  or reload the exam page again.  Code: 2.' . $dielink);
+                  Either download the config file manually,
+                  or reload the exam page again. Code: 2.' . $dielink);
         }
     }
     die('There is no login key record in the database.
@@ -94,9 +94,9 @@ if ($keyrec->iprestriction) {
 
 // Double check key belong to user.
 if ($keyrec->userid != $userid) {
-   die('Login key does not belong to the current user.
-        Either download the config file manually, 
-        or reload the exam page again.  Code: 3.' . $dielink);
+    die('Login key does not belong to the current user.
+         Either download the config file manually,
+         or reload the exam page again. Code: 3.' . $dielink);
 }
 
 // Key validated, now require an active user: not guest, not suspended.
