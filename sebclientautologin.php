@@ -45,7 +45,7 @@ if (isloggedin() && !isguestuser()) {
         exit;
     } else {
         die('Login key does not belong to the current user.
-             Either download the config file manually, 
+             Either download the config file manually,
              or reload the exam page again. Code: 1.' . $dielink);
     }
 }
