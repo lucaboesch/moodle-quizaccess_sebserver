@@ -389,7 +389,7 @@ class quizaccess_sebserver extends access_rule_base {
                     delete_user_key('quizaccess_sebserver', $USER->id);
                     // Create a new key.
                     $iprestriction = getremoteaddr();
-                    $validuntil = time() + 1500; // Expires in 15 mins.
+                    $validuntil = time() + 900; // Expires in 15 mins.
                     $key = create_user_key('quizaccess_sebserver', $USER->id, $cmid, $iprestriction, $validuntil);
                     $params = ['id' => $cmid, 'userid' => $USER->id, 'key' => $key, 'urltogo' => $url];
                     $autologinurl = new moodle_url('/mod/quiz/accessrule/sebserver/sebclientautologin.php?',
