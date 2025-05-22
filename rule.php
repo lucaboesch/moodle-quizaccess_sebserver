@@ -323,8 +323,7 @@ class quizaccess_sebserver extends access_rule_base {
                                                 get_string('hasconsecutivequiz', 'quizaccess_sebserver') .
                                                 ': ' . $nextquizinfo .
                                                 html_writer::end_div('');
-            }             
-                              
+            }
         }
         $validsession = !empty($SESSION->quizaccess_seb_access[$cmid]);
         if ($validsession) {
