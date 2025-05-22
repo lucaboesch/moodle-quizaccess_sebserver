@@ -70,3 +70,4 @@ $string['sebservertemplateid'] = 'SEB Server Vorlage';
 $string['sebservertemplateid_help'] = 'Wählen Sie passend zu Ihrem Prüfungsszenario eine von Ihrer Organisation bereitgestellte Exam Vorlage aus.';
 $string['manageddevicetemplate'] = 'Exam Konfiguration ID=';
 $string['proceednextquiz'] = 'Gehe zu';
+$string['hasconsecutivequiz'] = 'Anschliessender Test';

@@ -310,6 +310,21 @@ class quizaccess_sebserver extends access_rule_base {
                                              ['style' => "text-align: left;"]) .
                                              get_string('quizismanagedbysebserver', 'quizaccess_sebserver') .
                                              html_writer::end_div('');
+            if (isset($this->quiz->nextquizid) && $this->quiz->nextquizid != 0) {
+                [$nextquizcourse, $nextquizcm] = get_course_and_cm_from_instance($this->quiz->nextquizid, 'quiz');
+                $nextquizparams = ['id' => $nextquizcm->id];
+                $nextquizurl = new moodle_url('/mod/quiz/view.php?',
+                                                $nextquizparams);
+                $nextquizinfo = html_writer::link($nextquizurl->out(),
+                                                  $nextquizcm->name . ' (' . $nextquizcourse->fullname . ')',
+                                                  ['target' => '_blank']);
+                $return .= html_writer::start_div('alert alert-info alert-block fade in',
+                                                ['style' => "text-align: left;"]) .
+                                                get_string('hasconsecutivequiz', 'quizaccess_sebserver') .
+                                                ': ' . $nextquizinfo .
+                                                html_writer::end_div('');
+            }             
+                              
         }
         $validsession = !empty($SESSION->quizaccess_seb_access[$cmid]);
         if ($validsession) {
