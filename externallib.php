@@ -839,7 +839,7 @@ class quizaccess_sebserver_external extends external_api {
         try {
             global $CFG;
             require_once($CFG->dirroot . '/mod/quiz/locallib.php');
-            $quizobj = quiz::create($quizid);
+            $quizobj = quiz_settings::create($quizid);
             $cm = $quizobj->get_cm();
             $cmid = $cm->id;
             if (has_capability('mod/quiz:manage', $quizobj->get_context())) {
@@ -1055,7 +1055,7 @@ class quizaccess_sebserver_external extends external_api {
         try {
             global $CFG;
             require_once($CFG->dirroot . '/mod/quiz/locallib.php');
-            $quizobj = quiz::create($quizid);
+            $quizobj = quiz_settings::create($quizid);
             $cm = $quizobj->get_cm();
             $cmid = $cm->id;
             if (has_capability('mod/quiz:manage', $quizobj->get_context())) {
